@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         }else if (ope == 3){
             answer = number1.multiply(number2);
         }else if (ope == 4){
-            answer = number2.divide(number1,100,RoundingMode.HALF_UP);
+            answer = number2.divide(number1,500,RoundingMode.HALF_UP);
         }
         textView.setText(String.valueOf(answer));
     }
