@@ -5,6 +5,7 @@ import android.app.SharedElementCallback;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.support.annotation.IntegerRes;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -29,10 +30,11 @@ public class MainActivity extends AppCompatActivity {
     BigDecimal answer = new BigDecimal(0.0);
     int ope;
     TextView textView;
+    TextView binarytext;
+    TextView hextext;
 
     int decimalnumber;
     SharedPreferences preferences;
-
 
     @Override
 
@@ -42,7 +44,11 @@ public class MainActivity extends AppCompatActivity {
         ope = 0;
 
         textView = (TextView) findViewById(R.id.textView);
+        binarytext = (TextView) findViewById(R.id.binarytext);
+        hextext = (TextView) findViewById(R.id.hextext);
         textView.setText("0");
+        hextext.setText("0");
+        binarytext.setText("0");
         preferences = getSharedPreferences("DataSave", Context.MODE_PRIVATE);
         decimalnumber = preferences.getInt("decimalnumber",100);
 
@@ -88,6 +94,8 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
         textView.setText(String.valueOf(number1));
+        binarytext.setText(Integer.toBinaryString(Integer.parseInt(number1.toString())));
+        hextext.setText(Integer.toHexString(Integer.parseInt(number1.toString())));
     }
     public void plus(View v){
         number2 = number1;
@@ -123,9 +131,9 @@ public class MainActivity extends AppCompatActivity {
             answer = number2.divide(number1,decimalnumber,RoundingMode.HALF_UP);
         }
         textView.setText(String.valueOf(answer));
+        binarytext.setText(Integer.toBinaryString(Integer.parseInt(answer.setScale(0, BigDecimal.ROUND_HALF_UP).toString())));
+        hextext.setText(Integer.toHexString(Integer.parseInt(answer.setScale(0, BigDecimal.ROUND_HALF_UP).toString())));
     }
-
-
 
 
     public void clear(View v){
@@ -134,6 +142,8 @@ public class MainActivity extends AppCompatActivity {
         number1 = new BigDecimal(0.0);
         number2 = new BigDecimal(0.0);
         textView.setText("0");
+        binarytext.setText("0");
+        hextext.setText("0");
     }
 
     @Override
@@ -157,7 +167,6 @@ public class MainActivity extends AppCompatActivity {
                                 SharedPreferences.Editor editor = preferences.edit();
                                 editor.putInt("decimalnumber", decimalnumber);
                                 editor.apply();
-
                             }
                         })
                         .setNegativeButton("cancel",null)

@@ -5,14 +5,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="32dp"
-    android:weightSum="1"
     tools:layout_editor_absoluteX="16dp"
     tools:layout_editor_absoluteY="14dp">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.44"
+        android:layout_height="1dp"
+        android:layout_weight="1"
         android:paddingBottom="16dp">
 
         <TextView
@@ -20,8 +19,35 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1.01"
+            android:hint="Decimal"
             android:text="TextView" />
 
+    </ScrollView>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/binarytext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="binary"
+            android:text="TextView" />
+    </ScrollView>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/hextext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="hex"
+            android:text="TextView" />
     </ScrollView>
 
     <LinearLayout
@@ -194,5 +220,12 @@
             android:tag="="
             android:text="=" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.2"
+        android:text="2進数、16進数は小数点切り上げです。" />
 
 </LinearLayout>
