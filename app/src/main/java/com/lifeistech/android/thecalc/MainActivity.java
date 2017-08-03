@@ -1,9 +1,23 @@
 package com.lifeistech.android.thecalc;
 
+import android.app.Dialog;
+import android.app.SharedElementCallback;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -16,15 +30,23 @@ public class MainActivity extends AppCompatActivity {
     int ope;
     TextView textView;
 
+    int decimalnumber;
+    SharedPreferences preferences;
+
+
     @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ope = 0;
 
         textView = (TextView) findViewById(R.id.textView);
-
         textView.setText("0");
+        preferences = getSharedPreferences("DataSave", Context.MODE_PRIVATE);
+        decimalnumber = preferences.getInt("decimalnumber",100);
+
+        Log.d("decimalnumber",decimalnumber + "");
     }
 
     public void click(View v) {
@@ -98,10 +120,11 @@ public class MainActivity extends AppCompatActivity {
         }else if (ope == 3){
             answer = number1.multiply(number2);
         }else if (ope == 4){
-            answer = number2.divide(number1,500,RoundingMode.HALF_UP);
+            answer = number2.divide(number1,decimalnumber,RoundingMode.HALF_UP);
         }
         textView.setText(String.valueOf(answer));
     }
+
 
 
 
@@ -111,5 +134,45 @@ public class MainActivity extends AppCompatActivity {
         number1 = new BigDecimal(0.0);
         number2 = new BigDecimal(0.0);
         textView.setText("0");
+    }
+
+    @Override
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()){
+            case R.id.settings:
+                LayoutInflater inflater = LayoutInflater.from(MainActivity.this);
+                View view = inflater.inflate(R.layout.dialogue,null);
+                final EditText editText =(EditText)view.findViewById(R.id.editText);
+                editText.setText(decimalnumber + "");
+                new AlertDialog.Builder(MainActivity.this)
+                        .setTitle("表示する小数点の桁数")
+//                        .setIcon(R.drawable.icon)
+                        .setView(view)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Toast.makeText(MainActivity.this, editText.getText().toString(), Toast.LENGTH_LONG).show();
+                                decimalnumber = Integer.parseInt( editText.getText().toString());
+                                SharedPreferences.Editor editor = preferences.edit();
+                                editor.putInt("decimalnumber", decimalnumber);
+                                editor.apply();
+
+                            }
+                        })
+                        .setNegativeButton("cancel",null)
+                        .show();
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main,menu);
+        return true;
     }
 }
