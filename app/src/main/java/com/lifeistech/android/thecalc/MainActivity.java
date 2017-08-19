@@ -156,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
                 final EditText editText =(EditText)view.findViewById(R.id.editText);
                 editText.setText(decimalnumber + "");
                 new AlertDialog.Builder(MainActivity.this)
-                        .setTitle("表示する小数点の桁数")
+                        .setTitle("小数点の桁数")
 //                        .setIcon(R.drawable.icon)
                         .setView(view)
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
